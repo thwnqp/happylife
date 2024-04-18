@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第二关- 脑力</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .question {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .answer-input {
+      padding: 10px;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .button {
+      padding: 10px 20px;
+      font-size: 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>地狱级奥数题</h1>
+    <p>开始展现你的实力吧！:</p>
+    <div class="question" id="question"></div>
+    <input type="number" class="answer-input" id="answer" placeholder="Enter your answer">
+    <button class="button" onclick="checkAnswer()">提交答案</button>
+    <p>时间剩余: <span id="time">20</span> seconds</p>
+  </div>
+
+  <script>
+    let questionsAnswered = 0;
+    let timer;
+
+    function generateQuestion() {
+      const a = Math.floor(Math.random() * 1000);
+      const b = 1000 - a;
+      document.getElementById('question').textContent = `${a} + ${b} = ?`;
+    }
+
+    function startTimer() {
+      let timeLeft = 20;
+      timer = setInterval(() => {
+        document.getElementById('time').textContent = timeLeft;
+        timeLeft--;
+
+        if (timeLeft < 0) {
+          clearInterval(timer);
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function checkAnswer() {
+      const answer = parseInt(document.getElementById('answer').value);
+      if (answer === 1000) {
+        questionsAnswered++;
+        document.getElementById('answer').value = '';
+        if (questionsAnswered === 5) {
+          clearInterval(timer);
+          alert('恭喜！你已获得第二条线索：我每个月的生活费：RM1000 :)');
+          window.location.href = 'level3.html'; // Redirect to level 3
+        } else {
+          generateQuestion();
+        }
+      } else {
+        alert('你不行哦~回炉重造吧。');
+        window.location.href = 'level_stage.html'; // Redirect to level_stage.html
+      }
+    }
+
+    function endGame() {
+      alert('20秒都不行？好烂哦~');
+      window.location.href = 'level_stage.html'; // Redirect to level_stage.html
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      generateQuestion();
+      startTimer();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level 1 - 眼力测试</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 10px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #ccc;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>第一关 - 眼力测试</h1>
+    <p>在下面的方格中，找到与其他方格不同的一个。</p>
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const grid = document.getElementById('grid');
+      const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00']; // Example colors
+      
+      // Shuffle colors
+      colors.sort(() => Math.random() - 0.5);
+
+      // Create grid cells
+      for (let i = 0; i < 16; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.style.backgroundColor = i === 0 ? colors[0] : colors[1]; // First cell is different
+        cell.addEventListener('click', () => {
+          if (i === 0) {
+            alert('恭喜你看穿了我的实力，我的期考成绩：3.3');
+            window.location.href = 'level2.html'; // Redirect to level 2
+          } else {
+            alert('不会吧你不会瞎了吧？');
+            window.location.href = 'level_stage.html'; // Redirect back to level stage page
+          }
+        });
+        grid.appendChild(cell);
+      }
+    });
+  </script>
+</body>
+</html>
+

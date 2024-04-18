@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .start-button, .check-button {
+      padding: 10px 20px;
+      font-size: 18px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .start-button:hover, .check-button:hover {
+      background-color: #45a049;
+    }
+
+    .number-sequence {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    .answer-input {
+      padding: 10px;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    .message {
+      margin-top: 20px;
+      font-size: 20px;
+      color: #ff0000;
+    }
+
+    .reminder {
+      font-size: 14px;
+      color: #999;
+      margin-top: 10px;
+    }
+
+    .success-message, .failure-message {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 20px;
+      display: none; /* Initially hidden */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Memory Game</h1>
+    <button class="start-button" onclick="startGame()">准备好了</button>
+    <div id="game-area" style="display: none;">
+      <p>请记住以下数字：</p>
+      <div id="number-sequence"></div>
+      <div class="reminder" id="reminder" style="display: none;">数字将在三秒后消失</div>
+      <input type="text" class="answer-input" id="answer" placeholder="请输入答案" onclick="hideNumberSequence()">
+      <button class="check-button" onclick="checkAnswer()">检查答案</button>
+      <div id="message" class="message"></div>
+      <div id="success-message" class="success-message">恭喜！你已经牢牢记住我的账号了哦~<br><button onclick="redirectToCongrats()">OK</button></div>
+      <div id="failure-message" class="failure-message">你还需要多多修炼。<br><button onclick="redirectToLevelStage()">OK</button></div>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      { number: '76440', answer: '' },
+      { number: '58667', answer: '' },
+      { number: '7644058667', answer: '' }
+    ];
+    let currentQuestionIndex = 0;
+    let correctAnswers = 0;
+    let timer;
+
+    function startGame() {
+      document.querySelector('.start-button').style.display = 'none';
+      document.getElementById('game-area').style.display = 'block';
+      displayNextQuestion();
+    }
+
+    function displayNextQuestion() {
+      const currentQuestion = questions[currentQuestionIndex];
+      document.getElementById('number-sequence').textContent = currentQuestion.number;
+      document.getElementById('reminder').style.display = 'block'; // Show the reminder
+      timer = setTimeout(hideNumberSequence, 3000);
+    }
+
+    function hideNumberSequence() {
+      document.getElementById('number-sequence').textContent = '';
+      document.getElementById('answer').value = '';
+      document.getElementById('message').textContent = '';
+      document.getElementById('reminder').style.display = 'none'; // Hide the reminder
+      document.getElementById('answer').focus();
+    }
+
+    function checkAnswer() {
+      const currentQuestion = questions[currentQuestionIndex];
+      const answer = document.getElementById('answer').value;
+      if (answer === currentQuestion.number) {
+        document.getElementById('message').textContent = '恭喜！答对了！';
+        currentQuestion.answer = answer;
+        correctAnswers++;
+        if (correctAnswers === questions.length) {
+          document.getElementById('success-message').style.display = 'block';
+        } else {
+          currentQuestionIndex++;
+          clearTimeout(timer); // Clear the timer before displaying the next question
+          displayNextQuestion();
+        }
+      } else {
+        document.getElementById('message').textContent = '回答错误，请重新尝试。';
+      }
+    }
+
+    function redirectToCongrats() {
+      window.location.href = 'congrats.html';
+    }
+
+    function redirectToLevelStage() {
+      window.location.href = 'level_stage.html';
+    }
+  </script>
+</body>
+</html>

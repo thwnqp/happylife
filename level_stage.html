@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Level Stage</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #f0f0f0;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .level-btn {
+      padding: 10px 20px;
+      font-size: 20px;
+      background-color: #4CAF50; /* Green color */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-bottom: 10px;
+    }
+
+    .level-btn:hover {
+      background-color: #45a049; /* Darker green color */
+    }
+
+    .locked {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>全部通关即可解锁我的人生规划！</h1>
+    <button class="level-btn" onclick="redirectToLevel('level1.html')">第一关- 眼力</button>
+    <button class="level-btn" id="level2" disabled>第二关- 脑力</button>
+    <button class="level-btn" id="level3" disabled>第三关- 终极试炼</button>
+  </div>
+
+  <script>
+    // Assume level 1 is successfully completed
+    // You may adjust this condition based on your game logic
+    const level1Completed = true;
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (level1Completed) {
+        // Enable level 2 button
+        document.getElementById('level2').removeAttribute('disabled');
+      } else {
+        // If level 1 is not completed, disable level 2 and subsequent buttons
+        document.getElementById('level2').classList.add('locked');
+        document.getElementById('level3').classList.add('locked');
+      }
+    });
+
+    function redirectToLevel(levelPage) {
+      // Redirect to the specified level page
+      window.location.href = levelPage;
+    }
+  </script>
+</body>
+</html>
+
